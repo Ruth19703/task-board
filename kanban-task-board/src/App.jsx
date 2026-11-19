@@ -10,11 +10,15 @@ import TaskDetailPage from "./pages/TaskDetailPage";
 import ArchivePage from "./pages/ArchivePage";
 
 function App() {
-  // Global tasks state
-  const [tasks, setTasks] = useLocalStorage("kanbanTasks", []);
-
   // Loading state
   const [isLoading, setIsLoading] = useState(true);
+
+  // Global tasks state
+  const [tasks, setTasks] = useLocalStorage(
+    "kanbanTasks",
+    [],
+    !isLoading
+  );
 
   // Load saved tasks or initial tasks
   useEffect(() => {
@@ -54,17 +58,14 @@ function App() {
   function addTask(title) {
     const newTask = {
       id: Date.now(),
-      title: title,
+      title: title.trim(),
       description: "No description provided.",
       status: "todo",
       priority: "Medium",
       createdAt: new Date().toISOString().split("T")[0],
     };
 
-    setTasks((previousTasks) => [
-      ...previousTasks,
-      newTask,
-    ]);
+    setTasks((previousTasks) => [...previousTasks, newTask]);
   }
 
   // Move a task to another column
@@ -158,7 +159,10 @@ function App() {
           <Route
             path="/archive"
             element={
-              <ArchivePage tasks={tasks} />
+              <ArchivePage
+                tasks={tasks}
+                isLoading={isLoading}
+              />
             }
           />
 
