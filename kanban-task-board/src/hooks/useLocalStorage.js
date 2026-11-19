@@ -1,7 +1,7 @@
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
-function useLocalStorage(key, initialValue) {
+function useLocalStorage(key, initialValue, enabled = true) {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const savedValue = localStorage.getItem(key);
@@ -15,20 +15,15 @@ function useLocalStorage(key, initialValue) {
     }
   });
 
-  const isFirstRender = useRef(true);
-
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (!enabled) return;
 
     try {
       localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
       console.error("Error saving to localStorage:", error);
     }
-  }, [key, storedValue]);
+  }, [key, storedValue, enabled]);
 
   return [storedValue, setStoredValue];
 }
