@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import initialTasks from "./data/initialTasks";
 import useLocalStorage from "./hooks/useLocalStorage";
 
-import BoardPage from "./pages/BoardPage";
+import BoardPage from "./pages/boardpage.jsx";
 import TaskDetailPage from "./pages/TaskDetailPage";
 import ArchivePage from "./pages/ArchivePage";
 
